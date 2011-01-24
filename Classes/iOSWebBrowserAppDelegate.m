@@ -1,10 +1,3 @@
-//
-//  iOSWebBrowserAppDelegate.m
-//  iOSWebBrowser
-//
-//  Created by Alexander Belyavskiy on 1/24/11.
-//  Copyright 2011 ITechArt Group. All rights reserved.
-//
 
 #import "iOSWebBrowserAppDelegate.h"
 #import "iOSWebBrowserViewController.h"
