@@ -6,6 +6,7 @@
 #pragma mark private
 @interface WebSiteController()
 @property (nonatomic, retain) NSString *url;
+@property (nonatomic, retain) NSString *html;
 - (void)updateViewState;
 @end
 
@@ -17,6 +18,7 @@
 @synthesize refreshButton = refreshButton_;
 @synthesize activityIndicator = activityIndicator_;
 @synthesize url = url_;
+@synthesize html = html_;
 @synthesize delegate = delegate_;
 
 #pragma mark memory
@@ -27,6 +29,7 @@
 	[refreshButton_ release];
 	[activityIndicator_ release];
 	[url_ release];
+	[html_ release];
     [super dealloc];
 }
 
@@ -55,17 +58,30 @@
 	return self;
 }
 
+- (id) initWithHTMLString:(NSString *)html {
+	self = [super init];
+	if(self != nil){
+		html_ = [html retain];
+	}
+	return self;
+}
+
 #pragma mark view life
 - (void)viewDidLoad {
 	[webView_ setDelegate:self];
-	
-	self.url = [(NSString *) 
-				CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef) self.url, CFSTR(""), NULL, kCFStringEncodingUTF8) 
-				autorelease];
-	
-	NSURL *url = [NSURL URLWithString:self.url];
-	[webView_ loadRequest:[NSURLRequest requestWithURL:url]];
-	
+	if(url_ != nil){
+		self.url = [(NSString *) CFURLCreateStringByAddingPercentEscapes(NULL, 
+																		 (CFStringRef) url_,
+																		 CFSTR(""), 
+																		 NULL, 
+																		 kCFStringEncodingUTF8) autorelease];
+		NSURL *url = [NSURL URLWithString:url_];
+		[webView_ loadRequest:[NSURLRequest requestWithURL:url]];
+	}
+	else {
+		[webView_ loadHTMLString:html_ 
+						 baseURL:[NSURL URLWithString:@"www.unknown.no"]];
+	}
 	[self updateViewState];
     [super viewDidLoad];
 }

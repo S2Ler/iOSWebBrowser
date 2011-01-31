@@ -10,7 +10,7 @@
 	UIBarButtonItem *refreshButton_;
 	UIActivityIndicatorView *activityIndicator_;
 	NSString *url_;
-	
+	NSString *html_;
 	id<WebSiteControllerDelegate> delegate_;
 }
 
@@ -26,6 +26,7 @@
 #pragma mark inits
 /** @param url This parameter is copied. */
 - (id) initWithURLString:(NSString *)url;
+- (id) initWithHTMLString:(NSString *)html;
 
 #pragma mark actions
 - (IBAction)back;
